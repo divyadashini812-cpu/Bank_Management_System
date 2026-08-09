@@ -13,7 +13,7 @@ class Account {
     }
 }
 
-public class Bank {
+public class Bank{
     static HashMap<Integer, Account> accounts = new HashMap<>();
 
     // Create Account
@@ -22,6 +22,7 @@ public class Bank {
         System.out.print("Enter Account Number: ");
         int accountNumber = sc.nextInt();
         sc.nextLine();
+
         if (accounts.containsKey(accountNumber)) {
             System.out.println("Account already exists!");
             return;
@@ -49,6 +50,7 @@ public class Bank {
 
         System.out.print("Enter Account Number: ");
         int accountNumber = sc.nextInt();
+
         Account account = accounts.get(accountNumber);
 
         if (account == null) {
@@ -63,11 +65,42 @@ public class Bank {
             System.out.println("Invalid deposit amount!");
             return;
         }
+
         account.balance = account.balance + amount;
 
         System.out.println("Deposit successful!");
-        System.out.println("Account Number: " + account.accountNumber);
-        System.out.println("Account Holder: " + account.name);
+        System.out.println("Current Balance: ₹" + account.balance);
+    }
+
+    // Withdraw
+    static void withdraw(Scanner sc) {
+
+        System.out.print("Enter Account Number: ");
+        int accountNumber = sc.nextInt();
+
+        Account account = accounts.get(accountNumber);
+
+        if (account == null) {
+            System.out.println("Account not found!");
+            return;
+        }
+
+        System.out.print("Enter Withdrawal Amount: ");
+        double amount = sc.nextDouble();
+
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount!");
+            return;
+        }
+
+        if (amount > account.balance) {
+            System.out.println("Insufficient balance!");
+            return;
+        }
+
+        account.balance = account.balance - amount;
+
+        System.out.println("Withdrawal successful!");
         System.out.println("Current Balance: ₹" + account.balance);
     }
 
@@ -80,7 +113,8 @@ public class Bank {
             System.out.println("\n===== BANK MANAGEMENT SYSTEM =====");
             System.out.println("1. Create Account");
             System.out.println("2. Deposit");
-            System.out.println("3. Exit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -96,7 +130,11 @@ public class Bank {
                     break;
 
                 case 3:
-                    System.out.println("Thank you!");
+                    withdraw(sc);
+                    break;
+
+                case 4:
+                    System.out.println("Thank you for using Bank Management System!");
                     sc.close();
                     return;
 
